@@ -1,14 +1,14 @@
 
-  const hre = require("hardhat");
+const hre = require("hardhat");
 
 async function main() {
-  const StudentStorage = await hre.ethers.getContractFactory("StorageList");
-  const studentStorage = await StudentStorage.deploy();
+  const StorageList = await hre.ethers.getContractFactory("StorageList");
+  const storageList = await StorageList.deploy();
 
-  // await studentStorage.deployed(); deployed已经废弃使用waitForDeployment代替
-  await studentStorage.waitForDeployment();
+  // await storageList.deployed(); deployed已经废弃使用waitForDeployment代替
+  await storageList.waitForDeployment();
 
-  console.log("studentStorage deployed to:", await studentStorage.getAddress());
+  console.log("storageList deployed to:", await storageList.getAddress());
 }
 
 main()

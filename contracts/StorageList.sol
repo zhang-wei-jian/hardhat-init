@@ -16,6 +16,7 @@ contract StorageList {
     uint id;
     string name;
     uint age;
+    address account;
   }
 
   user[] public userList;
@@ -24,7 +25,7 @@ contract StorageList {
   function addList(string calldata _name,uint _age) public{
    uint  length = userList.length+1;
    uint  id = length;
-    userList.push(user(id,_name,_age));
+    userList.push(user(id,_name,_age,msg.sender));
   }
 
 // 函数类型声明：节省燃料。view 读取链上数据，不修改,pure 纯函数
