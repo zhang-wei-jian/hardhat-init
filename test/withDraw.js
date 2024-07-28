@@ -18,7 +18,7 @@ describe("ZWJToken", function () {
     ExChange = await ethers.getContractFactory("ExChange");
 
     zwjToken = await ZWJToken.deploy();
-    exChange = await ExChange.deploy("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", 10);
+    exChange = await ExChange.deploy("0x14dC79964da2C08b23698B3D3cc7Ca32193d9955", 10);
 
 
     [owner, addr1, addr2] = await ethers.getSigners();
@@ -28,23 +28,43 @@ describe("ZWJToken", function () {
 
 
 
+  it("查询zwj合约", async function () {
+
+
+    const network = await ethers.provider.getNetwork();
+    console.log("Connected to network:", network.name);
+    console.log("查询zwj合约", formatEther(await zwjToken.balanceOf("0x14dC79964da2C08b23698B3D3cc7Ca32193d9955")));
+
+
+
+    console.log("Network chain ID:", network.chainId);
+
+    // 获取 RPC URL
+    const provider = ethers.provider;
+    const providerUrl = provider.connection?.url || "unknown";
+    console.log("Connected to RPC URL:", providerUrl);
+
+
+
+
+  });
 
   it("depositEther存储ETH", async function () {
 
 
     await exChange.depositEther({
-      from: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      from: "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955",
       value: parseEther("10")
     })
 
     await exChange.depositEther({
-      from: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      from: "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955",
       value: parseEther("10")
     })
 
 
 
-    console.log("depositEther转账后", formatEther(await exChange.tokens("0x0000000000000000000000000000000000000000", "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266")));
+    console.log("depositEther转账后", formatEther(await exChange.tokens("0x0000000000000000000000000000000000000000", "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955")));
 
 
   });
@@ -57,25 +77,25 @@ describe("ZWJToken", function () {
     console.log(await exChange.getAddress());
     // 账户1希望交易exchange合约1000币
     await zwjToken.approve(await exChange.getAddress(), parseEther("1000"), {
-      from: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      from: "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955",
     })
 
-    console.log("希望交易所allowance交易所里面", formatEther(await zwjToken.allowance("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", exChange.getAddress())));
+    console.log("希望交易所allowance交易所里面", formatEther(await zwjToken.allowance("0x14dC79964da2C08b23698B3D3cc7Ca32193d9955", exChange.getAddress())));
 
 
     // 用户1存入exchange交易所1000代币，把zwjToken合约中的代币转移到exchange合约
     // 总的来说是zwjToken代币转移到了exchange里面
     // 本质上还是转移zwjToken代币到别的地方
     await exChange.depositToken(zwjToken.getAddress(), parseEther("1000"), {
-      from: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      from: "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955",
     })
 
-    console.log("exChange交易所里面", formatEther(await exChange.tokens(zwjToken.getAddress(), "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266")));
+    console.log("exChange交易所里面", formatEther(await exChange.tokens(zwjToken.getAddress(), "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955")));
 
 
 
     //     await exChange.depositToken({
-    //       from: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    //       from: "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955",
     //       value: parseEther("10")
     //     })
 
@@ -119,10 +139,10 @@ describe("ZWJToken", function () {
 
 
     // await exChange.depositToken(zwjToken.getAddress(), parseEther("500"), {
-    //   from: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    //   from: "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955",
     // })
 
-    // console.log("exChange交易所里面", formatEther(await exChange.tokens(zwjToken.getAddress(), "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266")));
+    // console.log("exChange交易所里面", formatEther(await exChange.tokens(zwjToken.getAddress(), "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955")));
 
 
 
@@ -130,11 +150,11 @@ describe("ZWJToken", function () {
 
     // // 提取exchange的Eth
     // const res1 = await exChange.withdrawEther(parseEther("10"), {
-    //   from: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    //   from: "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955",
     // })
 
 
-    // console.log("exChange交易所里面", formatEther(await exChange.tokens("0x0000000000000000000000000000000000000000", zwjToken.getAddress(), "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266")));
+    // console.log("exChange交易所里面", formatEther(await exChange.tokens("0x0000000000000000000000000000000000000000", zwjToken.getAddress(), "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955")));
 
 
     // await exChange.withdrawToken(zwjToken.getAddress(), parseEther("50000"))
@@ -145,7 +165,7 @@ describe("ZWJToken", function () {
 
 
     //     await exChange.depositToken({
-    //       from: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    //       from: "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955",
     //       value: parseEther("10")
     //     })
 
@@ -196,7 +216,7 @@ describe("ZWJToken", function () {
     const parsedLogs2 = logs2.map(log => exChange.interface.parseLog(log));
 
     // 输出结果
-    console.log("创建的订单:", parsedLogs2);
+    // console.log("创建的订单:", parsedLogs2);
 
 
   });
