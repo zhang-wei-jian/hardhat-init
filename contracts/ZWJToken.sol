@@ -68,6 +68,7 @@ contract ZWJToken {
     }
 
     // 扣除允许交易用户交易地址货币，修改balanceOf代币数据库
+    // transferFrom是合约调用的函数，此前必须approve允许合约地址转走当前代币
     function transferFrom(
         address _from,
         address _to,

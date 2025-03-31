@@ -76,7 +76,7 @@ contract ExChange {
         feePercent = _feePercent;
     }
 
-    // 存以太币
+    // 存以太币，payable函数调用用户首先操作eth，然后合约代码调用
     function depositEther() public payable {
         // payable函数会自动存入智能合约钱
         // msg.sender  发送交易的地址
@@ -112,7 +112,7 @@ contract ExChange {
         );
     }
 
-    // 提取以太币
+    // 提取以太币,当前智能合约的ETH转到另一个地址钱包
     function withdrawEther(uint256 _value) public {
         require(tokens[ETHER][msg.sender] >= _value);
         tokens[ETHER][msg.sender] -= _value;
