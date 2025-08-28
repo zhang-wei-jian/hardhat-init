@@ -17,6 +17,7 @@ contract ContractB {
     uint public a;
     uint public b;
     bytes public callMethodDataHash;
+    bytes public delegateCallMethodDataHash;
 
     constructor() {
         a = 222;
@@ -42,5 +43,16 @@ contract ContractB {
         (bool success, ) = addr.call(callMethodData);
 
         require(success, "call Error");
+    }
+    // delegateCall调用
+    function delegateCallMethod(address addr, uint count) public {
+        bytes memory callMethodData = abi.encodeWithSignature(
+            "setA(uint256)",
+            count
+        );
+
+        delegateCallMethodDataHash = callMethodData;
+        (bool success, ) = addr.delegatecall(callMethodData);
+        require(success, "delegateCall Error");
     }
 }
