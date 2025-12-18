@@ -139,4 +139,4 @@ contract UnitedStatesDollarTether is ERC20, Ownable, ERC20Permit {
 
 
 //总结出无法通过delegatecall实现erc20的transfer攻击，eoa身份无法保持调用transfer，进入transfer环境会改变msg.sender
-// 那么delegatecall直接call用transfer呢
+// 那么delegatecall直接call用transfer呢，答案是不行的，相当于transfer执行在当前上下文，盗取不了代币
